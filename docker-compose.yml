@@ -1,0 +1,29 @@
+nginx:
+    image: mirkohaaser/docker-nginx:latest
+    ports:
+        - "80:80"
+        - "443:443"
+    volumes:
+        - ./docroot:/docroot
+        - ./nginx/conf.d:/etc/nginx/conf.d
+    links:
+        - php7
+        - php5
+mariadb:
+    image: mariadb
+    ports:
+        - "3306:3306"
+    env_file:
+        - ./mariadb/environment.env
+    volumes:
+        - ./mariadb/data:/var/lib/mysql
+        - ./mariadb/conf.d:/etc/mysql/conf.d
+
+php5:
+    image: mirkohaaser/docker-php-56
+    volumes:
+        - ./docroot:/docroot
+php7:
+    image: mirkohaaser/docker-php-71
+    volumes:
+        - ./docroot:/docroot
